@@ -15,6 +15,7 @@ const Popover = memo(() => {
       <button
         style={{
           background: "var(--primary)",
+          color: "black",
           boxShadow: "2px 4px 4px 0 #00000020",
           transition: "box-shadow 0.1s ease-in-out",
           borderRadius: 4,
