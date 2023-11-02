@@ -22,13 +22,13 @@ const Popover = memo(() => {
           background: "var(--primary)",
           boxShadow: "2px 4px 4px 0 #00000020",
           transition: "box-shadow 0.1s ease-in-out",
-          borderRadius: "2px",
+          borderRadius: 4,
           fontFamily: "inherit",
           cursor: "pointer",
           outline: "0px",
           paddingInline: "16px",
           paddingBlock: "8px",
-          border: "2px black solid",
+          border: "1px gray solid",
         }}
         onClick={() => setOpen(!open)}
       >

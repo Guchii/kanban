@@ -126,9 +126,8 @@ table {
 }
 
 :root {
-  font-family: "GT Walsheim Pro Bold Regular", Inter, system-ui, Avenir,
-    Helvetica, Arial, sans-serif;
-  font-weight: 400;
+  font-family: "Figtree", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 500;
 
   --primary: white;
   --primary-fg: black;

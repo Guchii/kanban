@@ -1,7 +1,8 @@
+import { useMemo } from "react";
+
 import { useFetch } from "@/hooks/use-fetch";
 import { useAppContext } from "@/hooks/use-context";
-import { useMemo } from "react";
-import Ticket from "./components/ticket";
+import Ticket from "@/components/ticket";
 
 export type FetchDataType = {
   tickets: Array<{
@@ -18,6 +19,13 @@ export type FetchDataType = {
     available: boolean;
   }>;
 };
+
+const PriorityMap = new Map<number, string>([
+  [0, "Urgent"],
+  [1, "High"],
+  [2, "Medium"],
+  [3, "Low"],
+]);
 
 function App() {
   const { data, error } = useFetch<FetchDataType>(import.meta.env.VITE_API_URL);
@@ -123,6 +131,9 @@ function App() {
                       }}
                       key={priority}
                     >
+                      <div>
+                        {PriorityMap.get(Number(priority))} {priority}
+                      </div>
                       {tickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
@@ -152,6 +163,7 @@ function App() {
                       }}
                       key={status}
                     >
+                      <div>{status}</div>
                       {tickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
