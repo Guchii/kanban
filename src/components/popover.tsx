@@ -11,13 +11,7 @@ const Popover = memo(() => {
     setOpen(false);
   });
   return (
-    <div
-      style={{
-        position: "relative",
-        padding: 32,
-      }}
-      ref={wrapperRef}
-    >
+    <div style={{ position: "relative" }} ref={wrapperRef}>
       <button
         style={{
           background: "var(--primary)",
@@ -46,12 +40,12 @@ const Popover = memo(() => {
             padding: 16,
             position: "absolute",
             border: "1px solid var(--primary)",
-            bottom: -60,
+            bottom: -80,
             borderRadius: "4px",
             width: 200,
             boxShadow: "4px 4px 10px 0 #00000010",
             height: 80,
-            left: 32,
+            left: 0,
             zIndex: 10000000,
             background: "var(--primary)",
           }}

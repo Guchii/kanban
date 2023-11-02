@@ -8,7 +8,6 @@ import {
   CheckCheckIcon,
   Circle,
   CircleDashed,
-  CrossIcon,
   LucideIcon,
   Minus,
   MoreHorizontal,
@@ -16,6 +15,7 @@ import {
   SignalHigh,
   SignalLow,
   SignalMedium,
+  X,
 } from "lucide-react";
 
 export type FetchDataType = {
@@ -35,11 +35,11 @@ export type FetchDataType = {
 };
 
 export const PriorityMap = new Map<number, [string, LucideIcon]>([
+  [4, ["No Priority", Minus]],
   [0, ["Urgent", AlertCircle]],
   [1, ["High", SignalHigh]],
   [2, ["Medium", SignalMedium]],
   [3, ["Low", SignalLow]],
-  [4, ["No Priority", Minus]],
 ]);
 
 export const StatusMap = new Map<string, [LucideIcon]>([
@@ -47,7 +47,7 @@ export const StatusMap = new Map<string, [LucideIcon]>([
   ["In progress", [CircleDashed]],
   ["Backlog", [AlertCircle]],
   ["Done", [CheckCheckIcon]],
-  ["Canceled", [CrossIcon]],
+  ["Canceled", [X]],
 ]);
 function App() {
   const { data, error } = useFetch<FetchDataType>(import.meta.env.VITE_API_URL);
@@ -200,8 +200,9 @@ function App() {
               </>
             ) : grouping === "priority" ? (
               <>
-                {Object.entries(tickets).map(([priority, tickets]) => {
-                  const [text, Icon] = PriorityMap.get(Number(priority)) as [
+                {Array.from(PriorityMap.keys()).map((priority) => {
+                  const myTickets = tickets[priority];
+                  const [text, Icon] = PriorityMap.get(priority) as [
                     string,
                     LucideIcon
                   ];
@@ -223,7 +224,7 @@ function App() {
                       >
                         <Icon
                           height={16}
-                          color={priority === "0" ? "orange" : undefined}
+                          color={priority === 0 ? "orange" : undefined}
                         />
                         <span
                           style={{
@@ -237,13 +238,13 @@ function App() {
                             marginRight: "auto",
                           }}
                         >
-                          {tickets.length}
+                          {myTickets.length}
                         </span>
                         <PlusIcon height={16} cursor={"pointer"} />
                         <MoreHorizontal height={16} cursor={"pointer"} />
                       </div>
 
-                      {tickets.map((ticket) => (
+                      {myTickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
                           hidePriority
@@ -263,8 +264,9 @@ function App() {
               </>
             ) : (
               <>
-                {Object.entries(tickets).map(([status, tickets]) => {
+                {Array.from(StatusMap.keys()).map((status) => {
                   const [Icon] = StatusMap.get(status) as [LucideIcon];
+                  const myTickets = tickets[status] ?? [];
                   return (
                     <div
                       style={{
@@ -295,12 +297,12 @@ function App() {
                             color: "#5b5c5f",
                           }}
                         >
-                          {tickets.length}
+                          {myTickets.length}
                         </span>
                         <PlusIcon height={16} cursor={"pointer"} />
                         <MoreHorizontal height={16} cursor={"pointer"} />
                       </div>
-                      {tickets.map((ticket) => (
+                      {myTickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
                           hideStatus
