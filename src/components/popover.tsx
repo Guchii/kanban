@@ -1,5 +1,6 @@
 import { useAppContext } from "@/hooks/use-context";
 import useOutsideClick from "@/hooks/use-on-click-outside";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { memo, useRef, useState } from "react";
 
 const Popover = memo(() => {
@@ -29,10 +30,15 @@ const Popover = memo(() => {
           paddingInline: "16px",
           paddingBlock: "8px",
           border: "1px gray solid",
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
         }}
         onClick={() => setOpen(!open)}
       >
+        <SlidersHorizontal size={12} />
         Details
+        <ChevronDown style={{ marginInlineStart: "auto" }} size={16} />
       </button>
       {open ? (
         <div

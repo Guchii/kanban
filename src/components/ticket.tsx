@@ -1,5 +1,5 @@
 import { FetchDataType, PriorityMap, StatusMap } from "@/App";
-import { FileX, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 interface TicketProps {
   ticket: FetchDataType["tickets"][number];
