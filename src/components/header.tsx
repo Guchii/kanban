@@ -8,7 +8,6 @@ function Header() {
         width: "100%",
         display: "flex",
         alignItems: "center",
-        padding: "0 30px",
         background: "var(--primary)",
       }}
     >

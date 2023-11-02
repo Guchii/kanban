@@ -1,5 +1,5 @@
 import { useFetch } from "@/hooks/use-fetch";
-import { useAppContext } from "./hooks/use-context";
+import { useAppContext } from "@/hooks/use-context";
 import { useMemo } from "react";
 
 type FetchDataType = {

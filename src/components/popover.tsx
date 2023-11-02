@@ -13,6 +13,7 @@ const Popover = memo(() => {
     <div
       style={{
         position: "relative",
+        padding: 32,
       }}
       ref={wrapperRef}
     >
@@ -38,12 +39,12 @@ const Popover = memo(() => {
           style={{
             position: "absolute",
             border: "1px solid var(--primary)",
-            bottom: "-140px",
+            bottom: -80,
             borderRadius: "4px",
             width: "440px",
             boxShadow: "4px 8px 10px 0 #00000040",
-            height: "100px",
-            left: "0",
+            height: 64,
+            left: 32,
             background: "var(--primary)",
             padding: "16px",
           }}
