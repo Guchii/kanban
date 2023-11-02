@@ -1,8 +1,10 @@
+import { useAppContext } from "@/hooks/use-context";
 import useOutsideClick from "@/hooks/use-on-click-outside";
-import { PropsWithChildren, memo, useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 
-const Popover = memo(({ children }: PropsWithChildren) => {
+const Popover = memo(() => {
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useAppContext();
   const wrapperRef = useRef<HTMLDivElement>(null);
   useOutsideClick(wrapperRef, () => {
     setOpen(false);
@@ -46,7 +48,54 @@ const Popover = memo(({ children }: PropsWithChildren) => {
             padding: "16px",
           }}
         >
-          {children}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              gap: "16px",
+            }}
+          >
+            <label htmlFor="grouping">Grouping</label>
+            <select
+              value={filter.grouping}
+              onChange={(e) => {
+                setFilter({
+                  ...filter,
+                  grouping: e.currentTarget.value as
+                    | "user"
+                    | "status"
+                    | "priority",
+                });
+                setOpen(false);
+              }}
+            >
+              <option value="user">user</option>
+              <option value="status">status</option>
+              <option value="priority">priority</option>
+            </select>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              gap: "16px",
+            }}
+          >
+            <label htmlFor="sorting">Sorting</label>
+            <select
+              value={filter.sorting}
+              onChange={(e) => {
+                setFilter({
+                  ...filter,
+                  sorting: e.currentTarget.value as "title" | "priority",
+                });
+                setOpen(false);
+              }}
+            >
+              <option value="title">title</option>
+              <option value="priority">priority</option>
+            </select>
+          </div>
         </div>
       ) : null}
     </div>

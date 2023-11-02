@@ -1,8 +1,6 @@
-import { useAppContext } from "@/hooks/use-context";
 import Popover from "./popover";
 
 function Header() {
-  const data = useAppContext();
   return (
     <header
       style={{
@@ -14,9 +12,7 @@ function Header() {
         background: "var(--primary)",
       }}
     >
-      <Popover>
-        <div>{JSON.stringify(data)}</div>
-      </Popover>
+      <Popover />
     </header>
   );
 }
