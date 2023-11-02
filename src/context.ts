@@ -1,7 +1,10 @@
-import { createContext, useContext } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
 
-type AppContextType = object;
+export type AppContextType = {
+  grouping: "status" | "user" | "priority";
+  sorting: "priority" | "title";
+};
 
-export const AppContext = createContext<AppContextType>({});
-
-export const useAppContext = () => useContext(AppContext);
+export const AppContext = createContext<
+  [AppContextType, Dispatch<SetStateAction<AppContextType>>]
+>([{ grouping: "status", sorting: "priority" }, () => {}]);
