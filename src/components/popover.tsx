@@ -41,7 +41,7 @@ const Popover = memo(() => {
             border: "1px solid var(--primary)",
             bottom: -80,
             borderRadius: "4px",
-            width: "440px",
+            width: 200,
             boxShadow: "4px 8px 10px 0 #00000040",
             height: 64,
             left: 32,
@@ -54,10 +54,19 @@ const Popover = memo(() => {
               width: "100%",
               display: "flex",
               gap: "16px",
+              marginBlockEnd: 8,
             }}
           >
-            <label htmlFor="grouping">Grouping</label>
+            <label
+              style={{
+                minWidth: 80,
+              }}
+              htmlFor="grouping"
+            >
+              Grouping
+            </label>
             <select
+              id="grouping"
               value={filter.grouping}
               onChange={(e) => {
                 setFilter({
@@ -82,8 +91,16 @@ const Popover = memo(() => {
               gap: "16px",
             }}
           >
-            <label htmlFor="sorting">Sorting</label>
+            <label
+              style={{
+                minWidth: 80,
+              }}
+              htmlFor="sorting"
+            >
+              Sorting
+            </label>
             <select
+              id="sorting"
               value={filter.sorting}
               onChange={(e) => {
                 setFilter({
