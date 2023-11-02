@@ -1,8 +1,9 @@
 import { useFetch } from "@/hooks/use-fetch";
 import { useAppContext } from "@/hooks/use-context";
 import { useMemo } from "react";
+import Ticket from "./components/ticket";
 
-type FetchDataType = {
+export type FetchDataType = {
   tickets: Array<{
     id: string;
     title: string;
@@ -54,6 +55,15 @@ function App() {
     );
   }, [data, grouping, sorting]);
 
+  const users = useMemo(() => {
+    return (
+      data?.users.reduce((acc, user) => {
+        acc[user.id] = user;
+        return acc;
+      }, {} as Record<string, (typeof data.users)[number]>) || {}
+    );
+  }, [data]);
+
   return (
     <main
       style={{
@@ -76,10 +86,26 @@ function App() {
               <>
                 {Object.entries(tickets).map(([user, tickets]) => {
                   return (
-                    <div key={user}>
-                      {user}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "16px",
+                      }}
+                      key={user}
+                    >
                       {tickets.map((ticket) => (
-                        <div key={ticket.id}>{ticket.title}</div>
+                        <Ticket
+                          key={ticket.id}
+                          user={
+                            users?.[user] ?? {
+                              available: false,
+                              id: "",
+                              name: "",
+                            }
+                          }
+                          ticket={ticket}
+                        />
                       ))}
                     </div>
                   );
@@ -89,10 +115,26 @@ function App() {
               <>
                 {Object.entries(tickets).map(([priority, tickets]) => {
                   return (
-                    <div key={priority}>
-                      {priority}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "16px",
+                      }}
+                      key={priority}
+                    >
                       {tickets.map((ticket) => (
-                        <div key={ticket.id}>{ticket.title}</div>
+                        <Ticket
+                          key={ticket.id}
+                          user={
+                            users?.[ticket.userId] ?? {
+                              available: false,
+                              id: "",
+                              name: "",
+                            }
+                          }
+                          ticket={ticket}
+                        />
                       ))}
                     </div>
                   );
@@ -102,13 +144,26 @@ function App() {
               <>
                 {Object.entries(tickets).map(([status, tickets]) => {
                   return (
-                    <div key={status}>
-                      {status}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "16px",
+                      }}
+                      key={status}
+                    >
                       {tickets.map((ticket) => (
-                        <div key={ticket.id}>
-                          {ticket.title}
-                          <div>{ticket.priority}</div>
-                        </div>
+                        <Ticket
+                          key={ticket.id}
+                          user={
+                            users?.[ticket.userId] ?? {
+                              available: false,
+                              id: "",
+                              name: "",
+                            }
+                          }
+                          ticket={ticket}
+                        />
                       ))}
                     </div>
                   );
