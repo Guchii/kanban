@@ -37,16 +37,17 @@ const Popover = memo(() => {
       {open ? (
         <div
           style={{
+            padding: 16,
             position: "absolute",
             border: "1px solid var(--primary)",
-            bottom: -80,
+            bottom: -60,
             borderRadius: "4px",
             width: 200,
-            boxShadow: "4px 8px 10px 0 #00000040",
-            height: 64,
+            boxShadow: "4px 4px 10px 0 #00000010",
+            height: 80,
             left: 32,
+            zIndex: 10000000,
             background: "var(--primary)",
-            padding: "16px",
           }}
         >
           <div
@@ -68,6 +69,9 @@ const Popover = memo(() => {
             <select
               id="grouping"
               value={filter.grouping}
+              style={{
+                border: "none",
+              }}
               onChange={(e) => {
                 setFilter({
                   ...filter,

@@ -78,12 +78,15 @@ summary,
 time,
 mark,
 audio,
+select,
+main,
 video {
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
+  box-sizing: border-box;
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -101,8 +104,6 @@ section {
   display: block;
 }
 body {
-  height: 100vh;
-  width: 100vw;
   background-color: #d1d1d350;
   color: black;
 }

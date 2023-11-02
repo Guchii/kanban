@@ -3,6 +3,20 @@ import { useMemo } from "react";
 import { useFetch } from "@/hooks/use-fetch";
 import { useAppContext } from "@/hooks/use-context";
 import Ticket from "@/components/ticket";
+import {
+  AlertCircle,
+  CheckCheckIcon,
+  Circle,
+  CircleDashed,
+  CrossIcon,
+  LucideIcon,
+  Minus,
+  MoreHorizontal,
+  PlusIcon,
+  SignalHigh,
+  SignalLow,
+  SignalMedium,
+} from "lucide-react";
 
 export type FetchDataType = {
   tickets: Array<{
@@ -20,13 +34,21 @@ export type FetchDataType = {
   }>;
 };
 
-const PriorityMap = new Map<number, string>([
-  [0, "Urgent"],
-  [1, "High"],
-  [2, "Medium"],
-  [3, "Low"],
+export const PriorityMap = new Map<number, [string, LucideIcon]>([
+  [0, ["Urgent", AlertCircle]],
+  [1, ["High", SignalHigh]],
+  [2, ["Medium", SignalMedium]],
+  [3, ["Low", SignalLow]],
+  [4, ["No Priority", Minus]],
 ]);
 
+export const StatusMap = new Map<string, [LucideIcon]>([
+  ["Todo", [Circle]],
+  ["In progress", [CircleDashed]],
+  ["Backlog", [AlertCircle]],
+  ["Done", [CheckCheckIcon]],
+  ["Canceled", [CrossIcon]],
+]);
 function App() {
   const { data, error } = useFetch<FetchDataType>(import.meta.env.VITE_API_URL);
   const [{ sorting, grouping }] = useAppContext();
@@ -75,10 +97,12 @@ function App() {
   return (
     <main
       style={{
+        height: "calc(100vh - 80px)",
+        overflow: "auto",
         padding: "32px",
       }}
     >
-      {error ? <p>{error.message}</p> : null}{" "}
+      {error ? <p>{error.message}</p> : null}
       {!data ? (
         <p>loading...</p>
       ) : (
@@ -102,9 +126,64 @@ function App() {
                       }}
                       key={user}
                     >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                        }}
+                      >
+                        <div
+                          style={{
+                            borderRadius: 25,
+                            width: 24,
+                            height: 24,
+                            position: "relative",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: 10,
+                              height: 10,
+                              position: "absolute",
+                              bottom: 0,
+                              right: 0,
+                              background: users[user].available
+                                ? "#7FFFD4"
+                                : "#a5a6a9",
+                              borderRadius: 4000,
+                            }}
+                          />
+                          <img
+                            src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${users[user].name}`}
+                            style={{ borderRadius: 4000, zIndex: -100 }}
+                            width={24}
+                            height={24}
+                            alt={users[user].name}
+                          />
+                        </div>
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {users?.[user].name ?? "Unknown"}
+                        </span>
+                        <span
+                          style={{
+                            marginRight: "auto",
+                            color: "#5b5c5f",
+                          }}
+                        >
+                          {tickets.length}
+                        </span>
+                        <PlusIcon height={16} cursor={"pointer"} />
+                        <MoreHorizontal height={16} cursor={"pointer"} />
+                      </div>
                       {tickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
+                          hideUser
                           user={
                             users?.[user] ?? {
                               available: false,
@@ -122,6 +201,10 @@ function App() {
             ) : grouping === "priority" ? (
               <>
                 {Object.entries(tickets).map(([priority, tickets]) => {
+                  const [text, Icon] = PriorityMap.get(Number(priority)) as [
+                    string,
+                    LucideIcon
+                  ];
                   return (
                     <div
                       style={{
@@ -131,12 +214,39 @@ function App() {
                       }}
                       key={priority}
                     >
-                      <div>
-                        {PriorityMap.get(Number(priority))} {priority}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                        }}
+                      >
+                        <Icon
+                          height={16}
+                          color={priority === "0" ? "orange" : undefined}
+                        />
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {text}
+                        </span>
+                        <span
+                          style={{
+                            marginRight: "auto",
+                          }}
+                        >
+                          {tickets.length}
+                        </span>
+                        <PlusIcon height={16} cursor={"pointer"} />
+                        <MoreHorizontal height={16} cursor={"pointer"} />
                       </div>
+
                       {tickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
+                          hidePriority
                           user={
                             users?.[ticket.userId] ?? {
                               available: false,
@@ -154,6 +264,7 @@ function App() {
             ) : (
               <>
                 {Object.entries(tickets).map(([status, tickets]) => {
+                  const [Icon] = StatusMap.get(status) as [LucideIcon];
                   return (
                     <div
                       style={{
@@ -163,10 +274,36 @@ function App() {
                       }}
                       key={status}
                     >
-                      <div>{status}</div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                        }}
+                      >
+                        <Icon height={16} />
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {status}
+                        </span>
+                        <span
+                          style={{
+                            marginRight: "auto",
+                            color: "#5b5c5f",
+                          }}
+                        >
+                          {tickets.length}
+                        </span>
+                        <PlusIcon height={16} cursor={"pointer"} />
+                        <MoreHorizontal height={16} cursor={"pointer"} />
+                      </div>
                       {tickets.map((ticket) => (
                         <Ticket
                           key={ticket.id}
+                          hideStatus
                           user={
                             users?.[ticket.userId] ?? {
                               available: false,
